@@ -11,6 +11,7 @@ import Inventory from "./pages/Inventory";
 import Sales from "./pages/Sales";
 import Production from "./pages/Production";
 import Expenses from "./pages/Expenses";
+import Menu from "./pages/Menu";
 
 function App() {
 
@@ -29,6 +30,15 @@ function App() {
                     element={
                         <ProtectedRoute>
                             <Inventory />
+                        </ProtectedRoute>
+                    }
+                />
+
+                <Route
+                    path="/menu"
+                    element={
+                        <ProtectedRoute>
+                            <Menu />
                         </ProtectedRoute>
                     }
                 />

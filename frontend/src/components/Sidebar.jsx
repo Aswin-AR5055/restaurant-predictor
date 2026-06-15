@@ -32,6 +32,16 @@ function Sidebar() {
                 >
                     Inventory
                 </NavLink>
+
+                <NavLink
+                    to="/menu"
+                    className={({ isActive }) =>
+                        `block p-3 rounded-lg transition ${isActive ? "bg-slate-700" : "hover:bg-slate-700"}`
+                    }
+                >
+                    Menu
+                </NavLink>
+
                 <NavLink
                     to="/sales"
                     className={({ isActive }) =>

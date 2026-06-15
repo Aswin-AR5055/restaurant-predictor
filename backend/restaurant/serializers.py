@@ -17,6 +17,10 @@ class ProductionSerializer(serializers.ModelSerializer):
         fields = "__all__"
 
 class SaleSerializer(serializers.ModelSerializer):
+    menu_item_name = serializers.CharField(
+        source='menu_item.name'
+        
+    )
     class Meta:
         model = Sale
         fields  = "__all__"
