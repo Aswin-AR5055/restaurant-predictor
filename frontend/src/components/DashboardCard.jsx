@@ -5,16 +5,34 @@ function DashboardCard({
 
     return (
         <div
-            style={{
-                border: "1px solid #ddd",
-                padding: "20px",
-                borderRadius: "8px",
-                width: "200px",
-            }}
+            className="
+                bg-slate-800
+                rounded-xl
+                p-6
+                shadow-lg
+                hover:scale-105
+                transition
+            "
         >
-            <h3>{title}</h3>
+            <h3
+                className="
+                    text-gray-400
+                    text-sm
+                "
+            >
+                {title}
+            </h3>
 
-            <h2>{value}</h2>
+            <h2
+                className="
+                    text-white
+                    text-3xl
+                    font-bold
+                    mt-2
+                "
+            >
+                {value}
+            </h2>
         </div>
     );
 }

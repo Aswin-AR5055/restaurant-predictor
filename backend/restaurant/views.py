@@ -23,7 +23,7 @@ class DashboardView(APIView):
             "expenses": expenses,
             "waste_cost": waste_cost,
             "profit": profit,
-            "top_items": get_top_items,
+            "top_items": get_top_items(today),
             "low_stock": [
                 ingredient.name
                 for ingredient in get_low_stock()

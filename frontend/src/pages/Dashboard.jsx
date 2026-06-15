@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import Layout from "../components/Layout";
 import DashboardCard from "../components/DashboardCard";
 import { getDashboardData } from "../services/dashboardService";
 
@@ -22,16 +23,53 @@ function Dashboard() {
         return <h2>Loading...</h2>;
     }
 
-    return (
-        <div>
-            <h1>Restaurant Dashboard</h1>
-            <div style={{ display: "flex", gap: "20px", flexWrap: "wrap" }}>
-                <DashboardCard title="Revenue" value={`₹${data.revenue}`} />
-                <DashboardCard title="Profit" value={`₹${data.profit}`} />
-                <DashboardCard title="Expenses" value={`₹${data.expenses}`} />
-                <DashboardCard title="Waste Cost" value={`₹${data.waste_cost}`} />
+return (
+    <Layout>
+
+            <h1
+                className="
+                    text-4xl
+                    font-bold
+                    mb-8
+                "
+            >
+                Dashboard
+            </h1>
+
+            <div
+                className="
+                    grid
+                    grid-cols-1
+                    md:grid-cols-2
+                    lg:grid-cols-4
+                    gap-6
+                "
+            >
+
+                <DashboardCard
+                    title="Revenue"
+                    value="₹0"
+                />
+
+                <DashboardCard
+                    title="Profit"
+                    value="₹0"
+                />
+
+                <DashboardCard
+                    title="Expenses"
+                    value="₹0"
+                />
+
+                <DashboardCard
+                    title="Waste"
+                    value="₹0"
+                />
+
             </div>
-        </div>
+
+        </Layout>
+
     );
 }
 
