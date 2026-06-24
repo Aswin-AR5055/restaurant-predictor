@@ -25,13 +25,13 @@ def deduct_inventory(sender, instance, created, **kwargs):
 
             ingredient = recipe.ingredient
 
-            ingredient.current_stock -= required_qty
-            Ingredient.save()
-
             if ingredient.current_stock < required_qty:
                 raise ValidationError(
                     f"Insufficient stock for {ingredient.name}"
                 )
+
+            ingredient.current_stock -= required_qty
+            ingredient.save()
 
             InventoryTransaction.objects.create(
                 ingredient=ingredient,

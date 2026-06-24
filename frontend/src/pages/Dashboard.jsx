@@ -48,22 +48,22 @@ return (
 
                 <DashboardCard
                     title="Revenue"
-                    value="₹0"
+                    value={'₹${data.revenue}'}
                 />
 
                 <DashboardCard
                     title="Profit"
-                    value="₹0"
+                    value={'₹${data.profit}'}
                 />
 
                 <DashboardCard
                     title="Expenses"
-                    value="₹0"
+                    value={'₹${data.expenses}'}
                 />
 
                 <DashboardCard
                     title="Waste"
-                    value="₹0"
+                    value={'₹${data.waste_cost}'}
                 />
 
             </div>

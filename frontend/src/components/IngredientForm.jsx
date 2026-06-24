@@ -109,7 +109,7 @@ function IngredientForm({
                     "
                 >
 
-                    <option value="KG">
+                    <option value="kg">
                         KG
                     </option>
 
