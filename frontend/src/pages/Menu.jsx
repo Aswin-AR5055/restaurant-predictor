@@ -1,29 +1,19 @@
-import {
-    useEffect,
-    useState
-} from "react";
-
-import Layout
-from "../components/Layout";
-
-import MenuForm
-from "../components/MenuForm";
-
-import MenuTable
-from "../components/MenuTable";
-
+import { useEffect, useState } from "react";
+import { useTranslation } from "../hooks/useAuth";
+import Layout from "../components/Layout";
+import MenuForm from "../components/MenuForm";
+import MenuTable from "../components/MenuTable";
 import {
     getMenuItems,
     createMenuItem,
-    deleteMenuItem
-}
-from "../services/menuService";
+    deleteMenuItem,
+} from "../services/menuService";
 
 function Menu() {
-
-    const [items,
-        setItems] =
-        useState([]);
+    const { t } = useTranslation();
+    const [items, setItems] = useState([]);
+    const [loading, setLoading] = useState(false);
+    const [error, setError] = useState(null);
 
     useEffect(() => {
 
@@ -32,33 +22,47 @@ function Menu() {
     }, []);
 
     async function loadMenuItems() {
-
-        const data =
-            await getMenuItems();
-
-        setItems(data);
+        try {
+            setLoading(true);
+            setError(null);
+            const data = await getMenuItems();
+            setItems(data);
+        } catch (err) {
+            setError(t("failedLoadMenuItems") + ": " + (err.response?.data?.detail || err.message));
+            console.error(err);
+        } finally {
+            setLoading(false);
+        }
     }
 
     async function handleCreate(
         item
     ) {
-
-        await createMenuItem(
-            item
-        );
-
-        loadMenuItems();
+        try {
+            setError(null);
+            await createMenuItem(
+                item
+            );
+            await loadMenuItems();
+        } catch (err) {
+            setError(t("failedCreateMenuItem") + ": " + (err.response?.data?.detail || err.message));
+            console.error(err);
+        }
     }
 
     async function handleDelete(
         id
     ) {
-
-        await deleteMenuItem(
-            id
-        );
-
-        loadMenuItems();
+        try {
+            setError(null);
+            await deleteMenuItem(
+                id
+            );
+            await loadMenuItems();
+        } catch (err) {
+            setError(t("failedDeleteMenuItem"));
+            console.error(err);
+        }
     }
 
     return (
@@ -72,8 +76,14 @@ function Menu() {
                     mb-6
                 "
             >
-                Menu Management
+                {t("menuManagement")}
             </h1>
+
+            {error && (
+                <div className="bg-red-900 text-red-100 p-4 rounded-lg mb-4">
+                    {error}
+                </div>
+            )}
 
             <MenuForm
                 onSubmit={
@@ -81,12 +91,18 @@ function Menu() {
                 }
             />
 
-            <MenuTable
-                items={items}
-                onDelete={
-                    handleDelete
-                }
-            />
+            {loading ? (
+                <div className="text-center py-8">
+                    <p>{t("loadingMenuItems")}</p>
+                </div>
+            ) : (
+                <MenuTable
+                    items={items}
+                    onDelete={
+                        handleDelete
+                    }
+                />
+            )}
 
         </Layout>
     );

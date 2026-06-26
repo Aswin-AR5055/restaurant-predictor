@@ -1,60 +1,58 @@
-import { useEffect, useState }
-from "react";
-
-import Layout
-from "../components/Layout";
-
-import IngredientForm
-from "../components/IngredientForm";
-
-import IngredientTable
-from "../components/IngredientTable";
-
+import { useEffect, useState } from "react";
+import { useTranslation } from "../hooks/useAuth";
+import Layout from "../components/Layout";
+import IngredientForm from "../components/IngredientForm";
+import IngredientTable from "../components/IngredientTable";
 import {
     getIngredients,
     createIngredient,
     deleteIngredient,
-}
-from "../services/ingredientService";
+} from "../services/ingredientService";
 
 function Inventory() {
-
-    const [ingredients,
-        setIngredients] =
-        useState([]);
+    const { t } = useTranslation();
+    const [ingredients, setIngredients] = useState([]);
+    const [loading, setLoading] = useState(false);
+    const [error, setError] = useState(null);
 
     useEffect(() => {
-
         loadIngredients();
-
     }, []);
 
     async function loadIngredients() {
-
-        const data =
-            await getIngredients();
-
-        setIngredients(data);
+        try {
+            setLoading(true);
+            setError(null);
+            const data = await getIngredients();
+            setIngredients(data);
+        } catch (err) {
+            setError(t("failedLoadIngredients") + ": " + (err.response?.data?.detail || err.message));
+            console.error(err);
+        } finally {
+            setLoading(false);
+        }
     }
 
-    async function handleCreate(
-        ingredient
-    ) {
-
-        await createIngredient(
-            ingredient
-        );
-
-        loadIngredients();
+    async function handleCreate(ingredient) {
+        try {
+            setError(null);
+            await createIngredient(ingredient);
+            await loadIngredients();
+        } catch (err) {
+            setError(t("failedCreateIngredient") + ": " + (err.response?.data?.detail || err.message));
+            console.error(err);
+        }
     }
 
-    async function handleDelete(
-        id
-    ) {
-
-        await deleteIngredient(id);
-
-        loadIngredients();
+    async function handleDelete(id) {
+        try {
+            setError(null);
+            await deleteIngredient(id);
+            await loadIngredients();
+        } catch (err) {
+            setError(t("failedDeleteIngredient"));
+            console.error(err);
+        }
     }
 
     return (
@@ -68,26 +66,27 @@ function Inventory() {
                     mb-6
                 "
             >
-                Inventory
+                {t("inventory")}
             </h1>
 
-            <IngredientForm
-                onSubmit={
-                    handleCreate
-                }
-            />
+            {error && (
+                <div className="bg-red-900 text-red-100 p-4 rounded-lg mb-4">
+                    {error}
+                </div>
+            )}
 
-            <IngredientTable
-                ingredients={
-                    ingredients
-                }
-                onDelete={
-                    handleDelete
-                }
-            />
+            <IngredientForm onSubmit={handleCreate} />
+
+            {loading ? (
+                <div className="text-center py-8">{t("loadingIngredients")}</div>
+            ) : (
+                <IngredientTable
+                    ingredients={ingredients}
+                    onDelete={handleDelete}
+                />
+            )}
 
         </Layout>
-
     );
 }
 

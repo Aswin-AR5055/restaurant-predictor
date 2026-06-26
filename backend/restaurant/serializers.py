@@ -12,18 +12,18 @@ class MenuItemSerializer(serializers.ModelSerializer):
         fields = "__all__"
     
 class ProductionSerializer(serializers.ModelSerializer):
+    menu_item_name = serializers.CharField(source='menu_item.name', read_only=True)
+    
     class Meta:
         model = Production
         fields = "__all__"
 
 class SaleSerializer(serializers.ModelSerializer):
-    menu_item_name = serializers.CharField(
-        source='menu_item.name'
-        
-    )
+    menu_item_name = serializers.CharField(source='menu_item.name', read_only=True)
+    
     class Meta:
         model = Sale
-        fields  = "__all__"
+        fields = "__all__"
 
 class WasteSerializer(serializers.ModelSerializer):
     class Meta:
@@ -46,11 +46,7 @@ class PurchaseItemSerializer(serializers.ModelSerializer):
         fields = "__all__"
 
 class PurchaseSerializer(serializers.ModelSerializer):
-
-    items = PurchaseItemSerializer(
-        many=True,
-        read_only=True
-    )
+    items = PurchaseItemSerializer(many=True, read_only=True)
 
     class Meta:
         model = Purchase

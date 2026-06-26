@@ -1,7 +1,10 @@
+import { useTranslation } from "../hooks/useAuth";
+
 function IngredientTable({
     ingredients,
     onDelete
 }) {
+    const { t } = useTranslation();
 
     return (
 
@@ -30,10 +33,10 @@ function IngredientTable({
                         "
                     >
 
-                        <th>Name</th>
-                        <th>Stock</th>
-                        <th>Minimum</th>
-                        <th>Unit</th>
+                        <th>{t("name")}</th>
+                        <th>{t("stock")}</th>
+                        <th>{t("minimumStock")}</th>
+                        <th>{t("unit")}</th>
                         <th></th>
 
                     </tr>
@@ -104,7 +107,7 @@ function IngredientTable({
                                             rounded
                                         "
                                     >
-                                        Delete
+                                        {t("delete")}
                                     </button>
 
                                 </td>

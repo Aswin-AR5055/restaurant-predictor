@@ -1,11 +1,11 @@
 import { useTranslation } from "../hooks/useAuth";
 
-function SalesTable({ sales }) {
+function ProductionTable({ productions, onDelete }) {
     const { t } = useTranslation();
-    if (!sales || sales.length === 0) {
+    if (!productions || productions.length === 0) {
         return (
             <div className="bg-slate-800 rounded-xl p-5 text-center text-gray-400">
-                {t("noSales")}
+                {t("noProductions")}
             </div>
         );
     }
@@ -18,20 +18,29 @@ function SalesTable({ sales }) {
                         <th className="pb-3">{t("item")}</th>
                         <th className="pb-3">{t("quantity")}</th>
                         <th className="pb-3">{t("date")}</th>
+                        <th className="pb-3"></th>
                     </tr>
                 </thead>
                 <tbody>
-                    {sales.map(sale => (
-                        <tr key={sale.id} className="border-b border-slate-700 hover:bg-slate-700">
+                    {productions.map(production => (
+                        <tr key={production.id} className="border-b border-slate-700 hover:bg-slate-700">
                             <td className="py-3">
-                                {sale.menu_item_name || `Item #${sale.menu_item}`}
+                                {production.menu_item_name || `Item #${production.menu_item}`}
                             </td>
                             <td className="py-3">
                                 <span className="bg-blue-900 px-2 py-1 rounded text-sm">
-                                    {sale.quantity_sold} units
+                                    {production.quantity_prepared} {t("units")}
                                 </span>
                             </td>
-                            <td className="py-3">{sale.date}</td>
+                            <td className="py-3">{production.date}</td>
+                            <td className="py-3">
+                                <button
+                                    onClick={() => onDelete(production.id)}
+                                    className="bg-red-600 hover:bg-red-700 px-3 py-1 rounded text-sm"
+                                >
+                                    {t("delete")}
+                                </button>
+                            </td>
                         </tr>
                     ))}
                 </tbody>
@@ -40,4 +49,4 @@ function SalesTable({ sales }) {
     );
 }
 
-export default SalesTable;
+export default ProductionTable;
