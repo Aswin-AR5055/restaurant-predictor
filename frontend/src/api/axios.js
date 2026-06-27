@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const api = axios.create({
-    baseURL: "http://127.0.0.1:8000/api/",
+    baseURL: import.meta.env.VITE_API_URL || "http://127.0.0.1:8000/api/",
 });
 
 api.interceptors.request.use(
@@ -32,9 +32,8 @@ api.interceptors.response.use(
                     throw new Error("No refresh token");
                 }
 
-                const response = await axios.post(
-                    "http://127.0.0.1:8000/api/token/refresh/",
-                    { refresh: refreshToken }
+                const response = await api.post("token/refresh/", { 
+                    refresh: refreshToken }
                 );
 
                 const { access } = response.data;
