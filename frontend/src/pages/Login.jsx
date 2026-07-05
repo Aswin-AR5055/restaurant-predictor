@@ -1,20 +1,17 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-
 import { login } from "../services/authService";
 import { useTranslation } from "../hooks/useAuth";
 
 function Login() {
-    const { t } = useTranslation();
+    const { t, language, setLanguage } = useTranslation();
     const navigate = useNavigate();
 
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
 
     const handleLogin = async (event) => {
-        // 1. Crucial: Prevent the page from reloading on form submit
-        event.preventDefault(); 
-        
+        event.preventDefault();
         try {
             await login(username, password);
             navigate("/dashboard");
@@ -26,10 +23,29 @@ function Login() {
 
     return (
         <div className="min-h-screen flex items-center justify-center bg-slate-950">
-            <form 
-                onSubmit={handleLogin} 
+            <form
+                onSubmit={handleLogin}
                 className="bg-slate-900 p-8 rounded-3xl shadow-2xl w-full max-w-md border border-slate-700"
             >
+                <div className="flex justify-end mb-6">
+                    <div className="flex items-center rounded-xl border border-slate-700 bg-slate-800 p-0.5">
+                        <button
+                            type="button"
+                            onClick={() => setLanguage("en")}
+                            className={`px-3 py-1.5 rounded-xl text-xs font-medium transition ${language === "en" ? "bg-amber-500 text-slate-950" : "text-slate-300 hover:bg-slate-700"}`}
+                        >
+                            {t("english")}
+                        </button>
+                        <button
+                            type="button"
+                            onClick={() => setLanguage("ta")}
+                            className={`px-3 py-1.5 rounded-xl text-xs font-medium transition ${language === "ta" ? "bg-amber-500 text-slate-950" : "text-slate-300 hover:bg-slate-700"}`}
+                        >
+                            {t("tamil")}
+                        </button>
+                    </div>
+                </div>
+
                 <h1 className="text-3xl font-bold text-white text-center mb-8">🍛 {t("appName")}</h1>
 
                 <div className="mb-4">
