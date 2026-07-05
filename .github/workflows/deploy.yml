@@ -44,17 +44,15 @@ jobs:
             # Install Docker if not present
             if ! command -v docker &> /dev/null; then
               curl -fsSL https://get.docker.com | sh
-              sudo usermod -aG docker $USER
-              newgrp docker
             fi
 
             # Install Docker Compose plugin if not present
-            if ! docker compose version &> /dev/null; then
-              DOCKER_CONFIG=${DOCKER_CONFIG:-$HOME/.docker}
-              mkdir -p $DOCKER_CONFIG/cli-plugins
-              curl -SL https://github.com/docker/compose/releases/latest/download/docker-compose-linux-x86_64 \
-                -o $DOCKER_CONFIG/cli-plugins/docker-compose
-              chmod +x $DOCKER_CONFIG/cli-plugins/docker-compose
+            if ! sudo docker compose version &> /dev/null; then
+              DOCKER_CONFIG=/usr/local/lib/docker/cli-plugins
+              sudo mkdir -p $DOCKER_CONFIG
+              sudo curl -SL https://github.com/docker/compose/releases/latest/download/docker-compose-linux-x86_64 \
+                -o $DOCKER_CONFIG/docker-compose
+              sudo chmod +x $DOCKER_CONFIG/docker-compose
             fi
 
             # Clone repo if not present, otherwise pull latest
@@ -70,5 +68,5 @@ jobs:
             echo "DB_NAME=${{ secrets.DB_NAME }}" >> .env
             echo "DB_USER=${{ secrets.DB_USER }}" >> .env
             echo "DB_PASSWORD=${{ secrets.DB_PASSWORD }}" >> .env
-            docker compose pull
-            docker compose up -d --remove-orphans
+            sudo docker compose pull
+            sudo docker compose up -d --remove-orphans
