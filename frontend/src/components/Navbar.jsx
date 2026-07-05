@@ -16,24 +16,22 @@ function Navbar() {
     };
 
     return (
-        <header className="flex items-center justify-between gap-4 bg-slate-950 border-b border-slate-800 px-6 py-4">
-            <div>
-                <p className="text-sm uppercase tracking-[0.24em] text-slate-400">{t("appName")}</p>
-            </div>
+        <header className="flex items-center justify-between gap-2 bg-slate-950 border-b border-slate-800 px-4 py-3">
+            <p className="text-xs uppercase tracking-widest text-slate-400 hidden sm:block">{t("appName")}</p>
 
-            <div className="flex items-center gap-3">
-                <div className="flex items-center rounded-2xl border border-slate-800 bg-slate-900 p-1">
+            <div className="flex items-center gap-2 ml-auto">
+                <div className="flex items-center rounded-xl border border-slate-800 bg-slate-900 p-0.5">
                     <button
                         type="button"
                         onClick={() => handleLanguageChange("en")}
-                        className={`px-3 py-2 rounded-2xl text-sm font-medium transition ${language === "en" ? "bg-amber-500 text-slate-950" : "text-slate-300 hover:bg-slate-800"}`}
+                        className={`px-2.5 py-1.5 rounded-xl text-xs font-medium transition ${language === "en" ? "bg-amber-500 text-slate-950" : "text-slate-300 hover:bg-slate-800"}`}
                     >
                         {t("english")}
                     </button>
                     <button
                         type="button"
                         onClick={() => handleLanguageChange("ta")}
-                        className={`px-3 py-2 rounded-2xl text-sm font-medium transition ${language === "ta" ? "bg-amber-500 text-slate-950" : "text-slate-300 hover:bg-slate-800"}`}
+                        className={`px-2.5 py-1.5 rounded-xl text-xs font-medium transition ${language === "ta" ? "bg-amber-500 text-slate-950" : "text-slate-300 hover:bg-slate-800"}`}
                     >
                         {t("tamil")}
                     </button>
@@ -42,7 +40,7 @@ function Navbar() {
                 <button
                     type="button"
                     onClick={handleLogout}
-                    className="rounded-2xl bg-red-600 px-4 py-2 text-sm font-semibold text-white hover:bg-red-500 transition"
+                    className="rounded-xl bg-red-600 px-3 py-1.5 text-xs font-semibold text-white hover:bg-red-500 transition"
                 >
                     {t("logout")}
                 </button>

@@ -75,8 +75,7 @@ function IngredientForm({ onSubmit }) {
     return (
         <div className="bg-slate-800 p-5 rounded-xl shadow-lg mb-6">
             <h2 className="text-xl font-bold mb-4">{t("addIngredient")}</h2>
-
-            <div className="grid grid-cols-2 gap-4">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div>
                     <input
                         name="name"

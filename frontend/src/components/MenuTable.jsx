@@ -16,33 +16,18 @@ function MenuTable({
 
     return (
 
-        <div
-            className="
-                bg-slate-800
-                rounded-xl
-                p-5
-                overflow-x-auto
-            "
-        >
-
-            <table
-                className="
-                    w-full
-                    text-left
-                "
-            >
+        <div className="bg-slate-800 rounded-xl overflow-x-auto">
+            <table className="w-full text-left min-w-[500px]">
 
                 <thead>
 
                     <tr className="border-b border-slate-700">
-
-                        <th className="pb-3">{t("itemName")}</th>
-                        <th className="pb-3">{t("category")}</th>
-                        <th className="pb-3">{t("costPrice")}</th>
-                        <th className="pb-3">{t("sellingPrice")}</th>
-                        <th className="pb-3">{t("margin")}</th>
-
-                        <th className="pb-3"></th>
+                        <th className="pb-3 px-4">{t("itemName")}</th>
+                        <th className="pb-3 px-4">{t("category")}</th>
+                        <th className="pb-3 px-4">{t("costPrice")}</th>
+                        <th className="pb-3 px-4">{t("sellingPrice")}</th>
+                        <th className="pb-3 px-4">{t("margin")}</th>
+                        <th className="pb-3 px-4"></th>
 
                     </tr>
 
@@ -60,53 +45,14 @@ function MenuTable({
                                     key={item.id}
                                     className="border-b border-slate-700 hover:bg-slate-700"
                                 >
-
-                                    <td className="py-3">
-                                        {item.name}
+                                    <td className="py-3 px-4">{item.name}</td>
+                                    <td className="py-3 px-4"><span className="bg-blue-900 px-2 py-1 rounded text-sm">{item.category}</span></td>
+                                    <td className="py-3 px-4">₹{parseFloat(item.cost_price).toFixed(2)}</td>
+                                    <td className="py-3 px-4">₹{parseFloat(item.selling_price).toFixed(2)}</td>
+                                    <td className="py-3 px-4"><span className={margin >= 0 ? "text-green-400" : "text-red-400"}>₹{parseFloat(margin).toFixed(2)} ({marginPercent}%)</span></td>
+                                    <td className="py-3 px-4">
+                                        <button onClick={() => onDelete(item.id)} className="bg-red-600 hover:bg-red-700 px-3 py-1 rounded text-sm">{t("delete")}</button>
                                     </td>
-
-                                    <td className="py-3">
-                                        <span className="bg-blue-900 px-2 py-1 rounded text-sm">
-                                            {item.category}
-                                        </span>
-                                    </td>
-
-                                    <td className="py-3">
-                                        ₹{parseFloat(item.cost_price).toFixed(2)}
-                                    </td>
-
-                                    <td className="py-3">
-                                        ₹{parseFloat(item.selling_price).toFixed(2)}
-                                    </td>
-
-                                    <td className="py-3">
-                                        <span className={margin >= 0 ? "text-green-400" : "text-red-400"}>
-                                            ₹{parseFloat(margin).toFixed(2)} ({marginPercent}%)
-                                        </span>
-                                    </td>
-
-                                    <td className="py-3">
-
-                                        <button
-                                            onClick={() =>
-                                                onDelete(
-                                                    item.id
-                                                )
-                                            }
-                                            className="
-                                                bg-red-600
-                                                hover:bg-red-700
-                                                px-3
-                                                py-1
-                                                rounded
-                                                text-sm
-                                            "
-                                        >
-                                            {t("delete")}
-                                        </button>
-
-                                    </td>
-
                                 </tr>
                             );
                         }
