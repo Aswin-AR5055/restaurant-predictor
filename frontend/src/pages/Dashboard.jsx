@@ -57,7 +57,7 @@ function Dashboard() {
             <div className="flex flex-col gap-6">
                 <div>
                     <h1 className="text-4xl font-bold mb-2">{t("dashboard")}</h1>
-                    <p className="text-slate-400 max-w-2xl">{t("appName")} {t("dashboard")} overview with revenue, production, and stock health.</p>
+                    <p className="text-slate-400 max-w-2xl">{t("appName")} {t("dashboard")} {t("dashboardOverview")}</p>
                 </div>
 
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
