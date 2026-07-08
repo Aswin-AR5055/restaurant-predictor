@@ -11,7 +11,8 @@ from .views import (
     ExpenseViewSet,
     SupplierViewSet,
     PurchaseViewSet,
-    PurchaseItemViewSet
+    PurchaseItemViewSet,
+    RegisterView
 )
 
 router = DefaultRouter()
@@ -33,5 +34,11 @@ urlpatterns = [
         "dashboard/",
         DashboardView.as_view(),
         name="dashboard"
+    ),
+
+    path(
+        "register/",
+        RegisterView.as_view(),
+        name="register"
     ),
 ]

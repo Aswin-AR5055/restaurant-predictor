@@ -12,6 +12,7 @@ import Sales from "./pages/Sales";
 import Production from "./pages/Production";
 import Expenses from "./pages/Expenses";
 import Menu from "./pages/Menu";
+import Register from "./pages/Register";
 
 function App() {
 
@@ -23,6 +24,11 @@ function App() {
                 <Route
                     path="/"
                     element={<Login />}
+                />
+
+                <Route
+                    path="/register"
+                    element={<Register />}
                 />
 
                 <Route
