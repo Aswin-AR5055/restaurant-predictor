@@ -3,6 +3,10 @@ name: Deploy to EC2
 on:
   push:
     branches: [master]
+    paths-ignore:
+      - 'README.md'
+      - '*.md'
+      - 'LICENSE'
 
 jobs:
   build-and-deploy:
