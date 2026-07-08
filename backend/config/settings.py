@@ -29,7 +29,7 @@ SECRET_KEY = os.getenv('DJANGO_SECRET_KEY')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
 
-ALLOWED_HOSTS = ['*']
+ALLOWED_HOSTS = ['dz648r8r2xl3b.cloudfront.net', '13.233.165.75']
 
 
 # Application definition
@@ -59,7 +59,9 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
-CORS_ALLOW_ALL_ORIGINS = True
+CORS_ALLOWED_ORIGINS = [
+    'https://dz648r8r2xl3b.cloudfront.net',
+]
 
 CSRF_TRUSTED_ORIGINS = ['https://dz648r8r2xl3b.cloudfront.net']
 

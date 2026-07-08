@@ -20,6 +20,8 @@ A full-stack restaurant operations management system built for small to medium r
 - **Expense Tracking** — Record operational expenses (Rent, Salary, Gas, Electricity, Water, Internet, etc.)
 - **Waste Monitoring** — Track wasted items with reasons (Unsold, Burnt, Spoiled, Returned) and calculate waste cost
 - **Bilingual UI** — Full English and Tamil language support across the entire interface
+- **Multi-User Support** — Each account has fully isolated data; registering a new account starts with a clean slate
+- **User Registration** — Self-service account creation via the register page
 - **JWT Authentication** — Secure login with token-based auth and auto inactivity logout
 - **Protected Routes** — All pages require authentication
 
@@ -68,7 +70,7 @@ restaurant-predictor/
 │   │   ├── services/       # Business logic (dashboard calculations)
 │   │   ├── models.py       # DB models
 │   │   ├── serializers.py
-│   │   ├── views.py        # API viewsets + dashboard view
+│   │   ├── views.py        # API viewsets + dashboard + register views
 │   │   └── urls.py
 │   ├── Dockerfile
 │   └── requirements.txt
@@ -79,7 +81,7 @@ restaurant-predictor/
 │   │   ├── context/        # Auth & language context
 │   │   ├── hooks/          # useAuth, useInactivityLogout
 │   │   ├── i18n/           # English & Tamil translations
-│   │   ├── pages/          # Dashboard, Menu, Sales, Inventory, Production, Expenses
+│   │   ├── pages/          # Dashboard, Menu, Sales, Inventory, Production, Expenses, Login, Register
 │   │   └── services/       # API service functions
 │   ├── Dockerfile
 │   └── package.json
@@ -134,7 +136,6 @@ venv\Scripts\activate        # Windows
 pip install -r requirements.txt
 # Create backend/config/.env with DB credentials
 python manage.py migrate
-python manage.py createsuperuser
 python manage.py runserver
 ```
 
@@ -147,22 +148,29 @@ npm run dev
 
 ---
 
+## Multi-User Data Isolation
+
+Every piece of data (ingredients, menu items, sales, production, expenses, waste, suppliers) is scoped to the account that created it. Users who register and log in will only ever see and interact with their own data.
+
+---
+
 ## API Endpoints
 
 | Endpoint | Description |
 |---|---|
+| `POST /api/register/` | Create a new user account |
+| `POST /api/token/` | Obtain JWT token |
+| `POST /api/token/refresh/` | Refresh JWT token |
 | `GET /api/dashboard/` | Today's revenue, profit, waste, top items, low stock |
 | `CRUD /api/ingredients/` | Ingredient management |
 | `CRUD /api/menu-items/` | Menu item management |
 | `CRUD /api/sales/` | Sales records |
 | `CRUD /api/productions/` | Production records |
 | `CRUD /api/expenses/` | Expense records |
-| `CRUD /api/waste/` | Waste records |
+| `CRUD /api/wastes/` | Waste records |
 | `CRUD /api/suppliers/` | Supplier management |
-| `POST /api/token/` | Obtain JWT token |
-| `POST /api/token/refresh/` | Refresh JWT token |
 
-All endpoints (except token) require a valid JWT Bearer token.
+All endpoints except `/api/register/` and `/api/token/` require a valid JWT Bearer token.
 
 ---
 
@@ -172,7 +180,8 @@ Pushing to the `master` branch automatically:
 1. Builds and pushes Docker images for backend and frontend to Docker Hub
 2. SSHs into the EC2 instance
 3. Pulls the latest images and restarts services via `docker compose`
-4. Creates the Django superuser if it doesn't exist
+4. Runs `python manage.py migrate` to apply any pending migrations
+5. Creates the Django superuser if it doesn't exist
 
 Required GitHub Secrets: `DOCKER_USERNAME`, `DOCKER_PASSWORD`, `EC2_HOST`, `EC2_USER`, `EC2_SSH_KEY`, `REPO_URL`, `DJANGO_SECRET_KEY`, `DB_NAME`, `DB_USER`, `DB_PASSWORD`, `DJANGO_SUPERUSER_USERNAME`, `DJANGO_SUPERUSER_EMAIL`, `DJANGO_SUPERUSER_PASSWORD`
 
