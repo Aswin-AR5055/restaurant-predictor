@@ -17,15 +17,15 @@ from .views import (
 
 router = DefaultRouter()
 
-router.register("ingredients", IngredientViewSet)
-router.register("menu-items", MenuItemViewSet)
-router.register("productions", ProductionViewSet)
-router.register("sales", SaleViewSet)
-router.register("wastes", WasteViewSet)
-router.register("expenses", ExpenseViewSet)
-router.register("suppliers", SupplierViewSet)
-router.register("purchases", PurchaseViewSet)
-router.register("purchase-items", PurchaseItemViewSet)
+router.register("ingredients", IngredientViewSet, basename="ingredient")
+router.register("menu-items", MenuItemViewSet, basename="menuitem")
+router.register("productions", ProductionViewSet, basename="production")
+router.register("sales", SaleViewSet, basename="sale")
+router.register("wastes", WasteViewSet, basename="waste")
+router.register("expenses", ExpenseViewSet, basename="expense")
+router.register("suppliers", SupplierViewSet, basename="supplier")
+router.register("purchases", PurchaseViewSet, basename="purchase")
+router.register("purchase-items", PurchaseItemViewSet, basename="purchaseitem")
 
 urlpatterns = [
     *router.urls,

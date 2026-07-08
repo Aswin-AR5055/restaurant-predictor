@@ -13,11 +13,11 @@ from django.contrib.auth.models import User
 
 class DashboardView(APIView):
     def get(self, request):
-
+        user = request.user
         today = date.today()
-        revenue = get_today_revenue(today)
-        expenses = get_today_expenses(today)
-        waste_cost = get_today_waste_cost(today)
+        revenue = get_today_revenue(today, user)
+        expenses = get_today_expenses(today, user)
+        waste_cost = get_today_waste_cost(today, user)
 
         profit = revenue - expenses - waste_cost
 
@@ -26,48 +26,78 @@ class DashboardView(APIView):
             "expenses": expenses,
             "waste_cost": waste_cost,
             "profit": profit,
-            "top_items": get_top_items(today),
+            "top_items": get_top_items(today, user),
             "low_stock": [
                 ingredient.name
-                for ingredient in get_low_stock()
+                for ingredient in get_low_stock(user)
             ]
         })
 
 class IngredientViewSet(viewsets.ModelViewSet):
-    queryset = Ingredient.objects.all()
     serializer_class = IngredientSerializer
 
+    def get_queryset(self):
+        return Ingredient.objects.filter(user=self.request.user)
+
+    def perform_create(self, serializer):
+        serializer.save(user=self.request.user)
+
 class MenuItemViewSet(viewsets.ModelViewSet):
-    queryset = MenuItem.objects.all()
     serializer_class = MenuItemSerializer
 
+    def get_queryset(self):
+        return MenuItem.objects.filter(user=self.request.user)
+
+    def perform_create(self, serializer):
+        serializer.save(user=self.request.user)
+
 class ProductionViewSet(viewsets.ModelViewSet):
-    queryset = Production.objects.all()
     serializer_class = ProductionSerializer
 
+    def get_queryset(self):
+        return Production.objects.filter(menu_item__user=self.request.user)
+
 class SaleViewSet(viewsets.ModelViewSet):
-    queryset = Sale.objects.all()
     serializer_class = SaleSerializer
 
+    def get_queryset(self):
+        return Sale.objects.filter(menu_item__user=self.request.user)
+
 class WasteViewSet(viewsets.ModelViewSet):
-    queryset = Waste.objects.all()
     serializer_class = WasteSerializer
 
+    def get_queryset(self):
+        return Waste.objects.filter(menu_item__user=self.request.user)
+
 class ExpenseViewSet(viewsets.ModelViewSet):
-    queryset = Expense.objects.all()
     serializer_class = ExpenseSerializer
 
+    def get_queryset(self):
+        return Expense.objects.filter(user=self.request.user)
+
+    def perform_create(self, serializer):
+        serializer.save(user=self.request.user)
+
 class SupplierViewSet(viewsets.ModelViewSet):
-    queryset = Supplier.objects.all()
     serializer_class = SupplierSerializer
 
+    def get_queryset(self):
+        return Supplier.objects.filter(user=self.request.user)
+
+    def perform_create(self, serializer):
+        serializer.save(user=self.request.user)
+
 class PurchaseViewSet(viewsets.ModelViewSet):
-    queryset = Purchase.objects.all()
     serializer_class = PurchaseSerializer
 
+    def get_queryset(self):
+        return Purchase.objects.filter(supplier__user=self.request.user)
+
 class PurchaseItemViewSet(viewsets.ModelViewSet):
-    queryset = PurchaseItem.objects.all()
     serializer_class = PurchaseItemSerializer
+
+    def get_queryset(self):
+        return PurchaseItem.objects.filter(purchase__supplier__user=self.request.user)
 
 class RegisterView(APIView):
     permission_classes = [AllowAny]

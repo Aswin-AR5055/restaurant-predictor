@@ -1,6 +1,8 @@
 from django.db import models
+from django.contrib.auth.models import User
 
 class Supplier(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE, null=True)
     name = models.CharField(max_length=100)
     phone = models.CharField(max_length=20, blank=True)
     address = models.TextField(blank=True)
@@ -17,7 +19,8 @@ class Ingredient(models.Model):
         ('PCS', 'Pieces'),
     ]
 
-    name = models.CharField(max_length=100, unique=True)
+    user = models.ForeignKey(User, on_delete=models.CASCADE, null=True)
+    name = models.CharField(max_length=100)
     unit = models.CharField(max_length=10, choices=UNIT_CHOICES)
     current_stock = models.DecimalField(max_digits=10, decimal_places=2, default=0)
     minimum_stock = models.DecimalField(max_digits=10, decimal_places=2, default=0)
@@ -37,6 +40,7 @@ class MenuItem(models.Model):
         ("DRINK", "Drink"),
     ]
 
+    user = models.ForeignKey(User, on_delete=models.CASCADE, null=True)
     name = models.CharField(max_length=100)
     category = models.CharField(max_length=20, choices=CATEGORY_CHOICES, default="LUNCH")
     cost_price = models.DecimalField(max_digits=10, decimal_places=2)
@@ -218,6 +222,7 @@ class Expense(models.Model):
         ("OTHER", "Other"),
     ]
 
+    user = models.ForeignKey(User, on_delete=models.CASCADE, null=True)
     expense_type = models.CharField(
         max_length=20,
         choices = EXPENSE_TYPES
